@@ -3,7 +3,7 @@ import pprint
 tf.enable_eager_execution()
 tfk = tf.keras
 
-from resnet_model import ResNet, CNN
+from resnet_model import resnet18, resnet34, CNN
 
 def main():
 
@@ -24,14 +24,13 @@ def main():
     dataset = dataset.shuffle(100).batch(32)
 
     optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.0001)
-    model = CNN()
+    model = resnet18()
 
     for epoch in range(1):
         print(epoch)
         for (batch, (images, labels)) in enumerate(dataset.take(400)):
             grads = grad(model, images, labels)
             optimizer.apply_gradients(zip(grads, model.variables), global_step=tf.train.get_or_create_global_step())
-
 
 if __name__ == '__main__':
     main()
