@@ -19,7 +19,7 @@ def main():
     (x_train, y_train), (x_test, y_test) = tfk.datasets.cifar100.load_data()
 
     dataset = tf.data.Dataset.from_tensor_slices(
-      (tf.cast(x_train/255, tf.float32),
+      (tf.cast(x_train/255.0, tf.float32),
        tf.cast(y_train,tf.int64)))
     dataset = dataset.shuffle(100).batch(32)
 
@@ -31,6 +31,9 @@ def main():
         for (batch, (images, labels)) in enumerate(dataset.take(400)):
             grads = grad(model, images, labels)
             optimizer.apply_gradients(zip(grads, model.variables), global_step=tf.train.get_or_create_global_step())
+
+    test_res = model(tf.cast(x_test/255.0, tf.float32))
+    print(test_res)
 
 if __name__ == '__main__':
     main()
