@@ -1,6 +1,7 @@
 version: '2.3'
 services:
-  nvidia:
-    image: nvidia/cuda
+  app:
+    build: .
+    volumes:
+      - .:/usr/src/app
     runtime: nvidia
-    command: nvidia-smi
